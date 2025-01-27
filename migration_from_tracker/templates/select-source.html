@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Выбор источника</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap">
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background: #f7f8fa;
+        font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        color: #333;
+        overflow: hidden;
+      }
+
+      .container {
+        display: flex;
+        max-width: 900px;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        flex-wrap: nowrap;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeIn 0.7s ease-out forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .image-section {
+        flex: 0 0 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-right: 1px solid #e0e0e0; /* Разделительная линия */
+      }
+
+      .image-section img {
+        max-width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .content-section {
+        flex: 1;
+        padding: 1.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        margin-top: 0;
+        text-align: left;
+      }
+
+      .divider {
+        border-top: 1px solid #e0e0e0;
+        margin-bottom: 1.5rem;
+      }
+
+      .list-group {
+        padding: 0;
+        margin: 0;
+      }
+
+      .list-group-item {
+        font-size: 0.875rem;
+        padding: 0.75rem 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+        background-color: #ffffff;
+        cursor: pointer;
+        transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        opacity: 0;
+        transform: translateY(10px);
+        animation: fadeInItem 0.5s ease forwards;
+      }
+
+      .list-group-item:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .list-group-item:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .list-group-item:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .list-group-item:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes fadeInItem {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .list-group-item:hover {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+
+      .list-group-item:focus,
+      .list-group-item.active {
+        background-color: #007bff;
+        color: #ffffff;
+        border-color: #007bff;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .button-group .btn {
+        flex: 1;
+        font-size: 0.875rem;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .btn-outline-dark {
+        background: #fff;
+        color: #333;
+        border: 1px solid #333;
+      }
+
+      .btn-outline-dark:hover {
+        background: #333;
+        color: #fff;
+        border-color: #333;
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="image-section">
+        <img src="img/logo.png" alt="Пример изображения">
+      </div>
+      <div class="content-section">
+        <h1>Выберите источник для миграции</h1>
+        <div class="divider"></div>
+        <ul class="list-group">
+          <li class="list-group-item" tabindex="0">jira</li>
+          <li class="list-group-item" tabindex="0">Assana</li>
+          <li class="list-group-item" tabindex="0">Cloud Org</li>
+          <li class="list-group-item" tabindex="0">360 Org</li>
+        </ul>
+        <div class="button-group">
+          <button type="button" class="btn btn-outline-dark" id="backButton">Назад</button>
+          <button type="button" class="btn btn-outline-dark">Далее</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const listItems = document.querySelectorAll(".list-group-item");
+        let selectedItem = null;
+    
+        // Добавляем обработчики событий для элементов списка
+        listItems.forEach((item) => {
+          item.addEventListener("click", () => {
+            // Убираем класс active у всех элементов
+            listItems.forEach((el) => el.classList.remove("active"));
+    
+            // Добавляем класс active к выбранному элементу
+            item.classList.add("active");
+    
+            // Сохраняем выбранный элемент
+            selectedItem = item.textContent.trim();
+          });
+        });
+    
+        // Обработчик кнопки "Назад"
+        document.getElementById("backButton").addEventListener("click", () => {
+          window.location.href = "index.html";
+        });
+    
+        // Обработчик кнопки "Далее"
+        document.querySelector(".button-group .btn:last-child").addEventListener("click", () => {
+          if (!selectedItem) {
+            alert("Пожалуйста, выберите источник для миграции.");
+            return;
+          }
+    
+          // Переход на соответствующую страницу
+          switch (selectedItem.toLowerCase()) {
+            case "jira":
+              window.location.href = "select_jjira.html"; // Укажите правильный путь
+              break;
+            case "assana":
+              window.location.href = "select_assana.html"; // Укажите правильный путь
+              break;
+            case "cloud org":
+              window.location.href = "cloud_org_page.html"; // Укажите правильный путь
+              break;
+            case "360 org":
+              window.location.href = "360_org_page.html"; // Укажите правильный путь
+              break;
+            default:
+              alert("Выбран неизвестный источник.");
+          }
+        });
+      });
+    </script>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>
